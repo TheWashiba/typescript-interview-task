@@ -1,9 +1,9 @@
-import {IItem} from "~/services/getUserItems";
+import { IUserItem } from '~/types';
 
-const itemHasReusedPassword = (item: IItem, itemList: Array<IItem>) => {
-  const reusedItems = itemList.filter((listItem) => (
-    listItem.password === item.password
-  ))
+const itemHasReusedPassword = (item: IUserItem, itemList: IUserItem[]) => {
+  const reusedItems = itemList.filter(
+    (listItem) => listItem.password === item.password
+  );
 
   return reusedItems.length > 1;
 };

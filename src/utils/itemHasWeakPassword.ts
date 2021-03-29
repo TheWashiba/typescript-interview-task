@@ -1,6 +1,6 @@
-import {IItem} from "~/services/getUserItems";
+import { IUserItem } from '~/types';
 
-const itemHasWeakPassword = (item: IItem) => {
+const itemHasWeakPassword = (item: IUserItem) => {
   const { password } = item;
 
   const strength = [

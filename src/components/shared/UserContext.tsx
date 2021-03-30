@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import { API } from '~/constants';
 import getUrl from '~/utils/getUrl';
 
-interface IUser {
+interface IUserContext {
   updateUser: () => void;
   deleteData: () => void;
   errorMessage: string;
@@ -12,7 +12,7 @@ interface IUser {
   id: string;
 }
 
-const UserContext = createContext<IUser>({
+const UserContext = createContext<IUserContext>({
   updateUser: () => {},
   deleteData: () => {},
   errorMessage: null,
@@ -66,7 +66,7 @@ export const UserContextProvider = ({ children }) => {
     updateUser();
   }, []);
 
-  const value = {
+  const value: IUserContext = {
     updateUser,
     deleteData,
     errorMessage,

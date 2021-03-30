@@ -1,25 +1,36 @@
-import {FC} from 'react';
-import {IItem} from "~/services/getUserItems";
-import logout from '../../../../services/logout';
+import { FC, useContext } from 'react';
+import { useHistory } from 'react-router';
+import UserContext from '~/components/shared/UserContext';
+import { Routes } from '~/constants';
+import { logout } from '~/services/auth.services';
+import { IUserItem } from '~/types';
 
 import './header-style.scss';
 
-interface IHeader {
-  items: Array<IItem>;
+interface IHeaderProps {
+  items: IUserItem[];
   username: string;
 }
 
-const Header: FC<IHeader> = ({items, username}) => {
+const Header: FC<IHeaderProps> = ({ items, username }) => {
+  const { replace } = useHistory();
+  const { deleteData } = useContext(UserContext);
+
+  const handleLogout = async () => {
+    await logout();
+    deleteData();
+    replace(Routes.Login);
+  };
 
   return (
     <div className="header">
       <div className="user-section">
-        <button onClick={logout}>{`Logout ${username}`}</button>
+        <button onClick={handleLogout}>{`Logout ${username}`}</button>
       </div>
       <h1>{`${items.length} Items are vulnerable`}</h1>
       <span>Create new complex passwords to protect your accounts</span>
     </div>
-  )
+  );
 };
 
 export default Header;

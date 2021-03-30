@@ -1,8 +1,8 @@
 import { IUserItem } from '~/types';
+import { subDays } from 'date-fns';
 
 const itemIsMonthOld = (item: IUserItem) => {
-  const monthAgo = new Date();
-  monthAgo.setDate(monthAgo.getDate() - 30);
+  const monthAgo = subDays(new Date(), 30);
   const itemDate = new Date(item.createdAt);
 
   return itemDate < monthAgo;

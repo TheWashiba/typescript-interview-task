@@ -13,8 +13,8 @@ interface IListProps {
 
 const List: FC<IListProps> = ({ items }) => {
   const [showModal, setShowModal] = useState(false);
-  const [selectedItem, setSelectedItem] = useState(null);
-  const [errorMessage, setErrorMessage] = useState<string>();
+  const [selectedItem, setSelectedItem] = useState<IUserItem | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string>('');
   const { updateUserItems } = useUserItemsContext();
 
   const handleListItemClick = async (item: IUserItem) => {
@@ -23,7 +23,7 @@ const List: FC<IListProps> = ({ items }) => {
   };
 
   const handleUserItemUpdate = async (newPass: string) => {
-    setErrorMessage(null);
+    setErrorMessage('');
 
     if (selectedItem !== null) {
       try {

@@ -22,14 +22,14 @@ const loginSchema = yup.object().shape({
 
 const Login = () => {
   const { push } = useHistory();
-  const [errorMessage, setErrorMessage] = useState<string>(null);
+  const [errorMessage, setErrorMessage] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { register, handleSubmit, errors } = useForm<ILoginForm>({
     resolver: yupResolver(loginSchema),
   });
 
   const onSubmit = async (data: ILoginForm) => {
-    setErrorMessage(null);
+    setErrorMessage('');
     setIsLoading(true);
 
     try {

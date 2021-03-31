@@ -2,7 +2,7 @@ import { API } from '~/constants';
 import { IUserItem } from '~/types';
 import { getUrl } from '~/utils';
 
-export const getUserItems = async (userId?: string): Promise<IUserItem[]> => {
+export const getUserItems = async (userId: string): Promise<IUserItem[]> => {
   const url = getUrl(API.Items, {
     userId,
   });

@@ -1,6 +1,7 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, FC, useContext, useEffect, useState } from 'react';
 import { getUserItems } from '~/services/userItems.services';
 import { IUserItem } from '~/types';
+import { useUserContext } from './UserContext';
 
 interface IUserItemsContext {
   updateUserItems: () => void;
@@ -12,21 +13,22 @@ interface IUserItemsContext {
 const UserItemsContext = createContext<IUserItemsContext>({
   updateUserItems: () => {},
   isLoading: false,
-  errorMessage: null,
+  errorMessage: '',
   items: [],
 });
 
 export const useUserItemsContext = () => useContext(UserItemsContext);
 
-export const UserItemsContextProvider = ({ children }) => {
+export const UserItemsContextProvider: FC = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
-  const [errorMessage, setErrorMessage] = useState<string>();
+  const [errorMessage, setErrorMessage] = useState<string>('');
   const [items, setItems] = useState<IUserItem[]>([]);
+  const { id } = useUserContext();
   const updateUserItems = async () => {
     setIsLoading(true);
 
     try {
-      const userItems = await getUserItems();
+      const userItems = await getUserItems(id);
 
       setItems(userItems);
     } catch (error) {

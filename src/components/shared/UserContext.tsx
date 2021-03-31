@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, FC, useContext, useEffect, useState } from 'react';
 import { API } from '~/constants';
 import getUrl from '~/utils/getUrl';
 
@@ -15,24 +15,24 @@ interface IUserContext {
 const UserContext = createContext<IUserContext>({
   updateUser: () => {},
   deleteData: () => {},
-  errorMessage: null,
+  errorMessage: '',
   isLoading: true,
-  username: null,
-  email: null,
-  id: null,
+  username: '',
+  email: '',
+  id: '',
 });
 
 export const useUserContext = () => useContext(UserContext);
 
-export const UserContextProvider = ({ children }) => {
-  const [errorMessage, setErrorMessage] = useState<string>(null);
+export const UserContextProvider: FC = ({ children }) => {
+  const [errorMessage, setErrorMessage] = useState<string>('');
   const [isLoading, setIsLoading] = useState(true);
-  const [username, setUsername] = useState<string>(null);
-  const [email, setEmail] = useState<string>(null);
-  const [id, setId] = useState<string>(null);
+  const [username, setUsername] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
+  const [id, setId] = useState<string>('');
 
   const updateUser = async () => {
-    setErrorMessage(null);
+    setErrorMessage('');
     setIsLoading(true);
 
     try {
@@ -55,11 +55,11 @@ export const UserContextProvider = ({ children }) => {
   };
 
   const deleteData = () => {
-    setErrorMessage(null);
+    setErrorMessage('');
     setIsLoading(false);
-    setUsername(null);
-    setEmail(null);
-    setId(null);
+    setUsername('');
+    setEmail('');
+    setId('');
   };
 
   useEffect(() => {

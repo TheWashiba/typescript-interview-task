@@ -1,7 +1,7 @@
 @import 'variables';
 
 .header {
-  height: 160px;
+  height: 10rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -10,8 +10,8 @@
   color: $white;
 
   &__user-section {
-    top: 16px;
-    right: 32px;
+    top: 1rem;
+    right: 2rem;
     position: absolute;
   }
 
@@ -19,11 +19,11 @@
     font-size: larger;
     font-weight: 700;
     background-color: $grey-light;
-    padding: 12px 18px;
+    padding: 0.75rem 1.125rem;
     cursor: pointer;
     user-select: none;
-    margin-left: 12px;
-    border-radius: 9px;
+    margin-left: 0.75rem;
+    border-radius: 0.5625rem;
     border-width: 0;
   }
 }

@@ -4,11 +4,11 @@
   background-color: $grey-light;
   font-size: larger;
   font-weight: 700;
-  padding: 12px 18px;
+  padding: 0.75rem 1.125rem;
   cursor: pointer;
   user-select: none;
-  margin-left: 12px;
-  border-radius: 9px;
+  margin-left: 0.75rem;
+  border-radius: 0.5625rem;
 
   &:hover {
     background-color: $grey;

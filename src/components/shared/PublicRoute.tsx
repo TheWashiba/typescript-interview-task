@@ -6,6 +6,7 @@ const PublicRoute: FC<RouteProps> = ({ path, component }) => {
   const { push } = useHistory();
   const token = localStorage.getItem('token');
 
+  // TODO incorrect semantic meaning "PublicRoute"? Public should be accessible to both auth and unauth users
   if (token) {
     push(Routes.PasswordHealth);
   }

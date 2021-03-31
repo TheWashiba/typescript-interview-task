@@ -7,7 +7,8 @@ import {
   itemIsMonthOld,
 } from '~/utils';
 import FilterTab from './components/FilterTab';
-import './filter-style.scss';
+
+import './Filter.scss';
 
 interface IFilterProps {
   items: IUserItem[];

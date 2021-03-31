@@ -2,7 +2,7 @@ import List from './components/List/List';
 import ErrorBlock from '../shared/ErrorBlock';
 import Filter from './components/Filter/Filter';
 import LoadingScreen from '../shared/LoadingScreen';
-import Header from './components/Header/Header';
+import Header from './components/Header';
 import { Route, Switch } from 'react-router-dom';
 import { Routes } from '~/constants';
 import { useUserContext } from '../shared/UserContext';

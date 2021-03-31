@@ -1,0 +1,8 @@
+@import 'variables';
+
+.filter {
+  display: flex;
+  justify-content: center;
+  background-color: $grey-lightest;
+  padding: 12px;
+}

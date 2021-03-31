@@ -1,5 +1,7 @@
 import { FC } from 'react';
 
+import './ItemIcon.scss';
+
 interface IItemIconProps {
   title: string;
 }

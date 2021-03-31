@@ -5,7 +5,7 @@ import { Routes } from '~/constants';
 import { logout } from '~/services/auth.services';
 import { IUserItem } from '~/types';
 
-import './header-style.scss';
+import './Header.scss';
 
 interface IHeaderProps {
   items: IUserItem[];
@@ -27,8 +27,11 @@ const Header: FC<IHeaderProps> = ({ items, username }) => {
 
   return (
     <div className="header">
-      <div className="user-section">
-        <button onClick={handleLogout}>{`Logout ${username}`}</button>
+      <div className="header__user-section">
+        <button
+          className="header__button"
+          onClick={handleLogout}
+        >{`Logout ${username}`}</button>
       </div>
       <h1>{`${items.length} Items are vulnerable`}</h1>
       <span>Create new complex passwords to protect your accounts</span>

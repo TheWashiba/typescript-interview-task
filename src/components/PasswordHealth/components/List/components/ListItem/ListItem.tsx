@@ -1,19 +1,26 @@
 import { IUserItem } from '~/types';
 import ItemIcon from '../ItemIcon';
-import UpdateModal from '../UpdateModal';
+
+import './ListItem.scss';
 
 interface IListItemProps {
   item: IUserItem;
+  handleListItemClick: (item: IUserItem) => void;
 }
 
-const ListItem = ({ item }: IListItemProps) => (
-  <li className="item">
+const ListItem = ({ item, handleListItemClick }: IListItemProps) => (
+  <li className="list-item">
     <ItemIcon title={item.title} />
     <div>
-      <div className="title">{item.title}</div>
-      <div className="description">{item.description}</div>
+      <div className="list-item__title">{item.title}</div>
+      <div className="list-item__description">{item.description}</div>
     </div>
-    <UpdateModal item={item} />
+    <button
+      className="list-item__update-btn"
+      onClick={() => handleListItemClick(item)}
+    >
+      Update Password
+    </button>
   </li>
 );
 

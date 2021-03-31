@@ -1,6 +1,8 @@
 import { FC } from 'react';
 import { useHistory } from 'react-router-dom';
 
+import './FilterTab.scss';
+
 interface IFilterTabProps {
   title: string;
   count: number;

@@ -1,4 +1,4 @@
-import { API } from '~/constants';
+import { API } from '../../constants';
 import getUrl from '../getUrl';
 
 process.env.API_URL = 'http://localhost:9003';

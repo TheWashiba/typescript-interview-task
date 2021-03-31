@@ -8,7 +8,7 @@ import { login } from '~/services/auth.services';
 import ErrorBlock from '../shared/ErrorBlock';
 import LoadingScreen from '../shared/LoadingScreen';
 
-import './login-style.scss';
+import './Login.scss';
 
 interface ILoginForm {
   username: string;

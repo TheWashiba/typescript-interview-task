@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useMemo } from 'react';
 import { Routes } from '~/constants';
 import { IUserItem } from '~/types';
 import {
@@ -14,19 +14,32 @@ interface IFilterProps {
 }
 
 const Filter: FC<IFilterProps> = ({ items }) => {
-  const weakItemsCount = items.reduce(
-    (count, item) => (itemHasWeakPassword(item) ? count + 1 : count),
-    0
+  const weakItemsCount = useMemo(
+    () =>
+      items.reduce(
+        (count, item) => (itemHasWeakPassword(item) ? count + 1 : count),
+        0
+      ),
+    [items]
   );
 
-  const reusedItemsCount = items.reduce(
-    (count, item) => (itemHasReusedPassword(item, items) ? count + 1 : count),
-    0
+  const reusedItemsCount = useMemo(
+    () =>
+      items.reduce(
+        (count, item) =>
+          itemHasReusedPassword(item, items) ? count + 1 : count,
+        0
+      ),
+    [items]
   );
 
-  const oldItemsCount = items.reduce(
-    (count, item) => (itemIsMonthOld(item) ? count + 1 : count),
-    0
+  const oldItemsCount = useMemo(
+    () =>
+      items.reduce(
+        (count, item) => (itemIsMonthOld(item) ? count + 1 : count),
+        0
+      ),
+    [items]
   );
 
   return (

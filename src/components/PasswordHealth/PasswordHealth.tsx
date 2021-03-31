@@ -19,7 +19,6 @@ const PasswordHealth = () => {
     isLoading: userDataIsLoading,
     username,
   } = useUserContext();
-
   const { items, isLoading, errorMessage } = useUserItemsContext();
 
   if (isLoading || userDataIsLoading) {

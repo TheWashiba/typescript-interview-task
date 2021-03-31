@@ -17,9 +17,12 @@ const Header: FC<IHeaderProps> = ({ items, username }) => {
   const { deleteData } = useContext(UserContext);
 
   const handleLogout = async () => {
-    await logout();
-    deleteData();
-    replace(Routes.Login);
+    try {
+      await logout();
+    } finally {
+      deleteData();
+      replace(Routes.Login);
+    }
   };
 
   return (

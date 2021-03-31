@@ -15,11 +15,15 @@ export const login = async (username: string, password: string) => {
 };
 
 export const logout = async () => {
-  await fetch(getUrl(API.Logout), {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem('token')}`,
-    },
-  });
-
-  localStorage.removeItem('token');
+  try {
+    await fetch(getUrl(API.Logout), {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    });
+  } catch (error) {
+    throw new Error(error);
+  } finally {
+    localStorage.removeItem('token');
+  }
 };

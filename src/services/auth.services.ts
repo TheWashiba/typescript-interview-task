@@ -1,5 +1,5 @@
-import { API } from '~/constants';
-import { getUrl } from '~/utils';
+import { API } from '../constants';
+import { getUrl } from '../utils';
 
 export const login = async (username: string, password: string) => {
   const url = getUrl(API.Login, {
@@ -14,7 +14,7 @@ export const login = async (username: string, password: string) => {
 
     localStorage.setItem('token', token);
   } catch (error) {
-    throw new Error(error);
+    throw new Error(error?.message);
   }
 };
 
@@ -26,7 +26,7 @@ export const logout = async () => {
       },
     });
   } catch (error) {
-    throw new Error(error);
+    throw new Error(error?.message);
   } finally {
     localStorage.removeItem('token');
   }

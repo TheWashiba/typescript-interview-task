@@ -5,6 +5,9 @@ const config: Config.InitialOptions = {
   transform: {
     '^.+\\.(ts|tsx)$': 'ts-jest',
   },
+  moduleNameMapper: {
+    '\\.(css|less|sass|scss)$': '<rootDir>/src/mocks/style.ts',
+  },
   globals: {
     'ts-jest': {
       isolatedModules: true,

@@ -12,7 +12,9 @@ const ListItem = ({ item, handleListItemClick }: IListItemProps) => (
   <li className="list-item">
     <ItemIcon title={item.title} />
     <div>
-      <div className="list-item__title">{item.title}</div>
+      <div className="list-item__title" role="">
+        {item.title}
+      </div>
       <div className="list-item__description">{item.description}</div>
     </div>
     <button

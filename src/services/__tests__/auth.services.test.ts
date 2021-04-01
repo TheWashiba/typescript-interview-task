@@ -1,6 +1,6 @@
 import fetchMock from 'jest-fetch-mock';
 import mockLocalStorage from '../../mocks/localStorage';
-import { login } from '../auth.services';
+import { login, logout } from '../auth.services';
 
 describe('login service', () => {
   const credentials = {
@@ -43,5 +43,23 @@ describe('login service', () => {
     } catch (error) {
       expect(error).toEqual(new Error('test'));
     }
+  });
+});
+
+describe('logout', () => {
+  beforeAll(() => {
+    process.env.API_URL = 'test';
+    fetchMock.enableMocks();
+    mockLocalStorage('test-token');
+  });
+
+  afterEach(() => fetchMock.resetMocks());
+
+  test('logout sets auth header - "Bearer test-token"', async () => {
+    fetchMock.mockResponseOnce('');
+    // expect.assertions(1);
+
+    await logout();
+    expect(fetchMock.mock).toMatchSnapshot();
   });
 });

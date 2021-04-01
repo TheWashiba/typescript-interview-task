@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`logout logout sets auth header - "Bearer test-token" 1`] = `
+Object {
+  "calls": Array [
+    Array [
+      "test/api/logout",
+      Object {
+        "headers": Object {
+          "Authorization": "Bearer test-token",
+        },
+      },
+    ],
+  ],
+  "instances": Array [
+    undefined,
+  ],
+  "invocationCallOrder": Array [
+    9,
+  ],
+  "results": Array [
+    Object {
+      "type": "return",
+      "value": Promise {},
+    },
+  ],
+}
+`;

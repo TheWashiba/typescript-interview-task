@@ -4,7 +4,7 @@ import { IUserItem } from '~/types';
 import {
   itemHasReusedPassword,
   itemHasWeakPassword,
-  itemIsMonthOld,
+  itemIs30DaysOld,
 } from '~/utils';
 import FilterTab from './components/FilterTab';
 
@@ -37,7 +37,7 @@ const Filter: FC<IFilterProps> = ({ items }) => {
   const oldItemsCount = useMemo(
     () =>
       items.reduce(
-        (count, item) => (itemIsMonthOld(item) ? count + 1 : count),
+        (count, item) => (itemIs30DaysOld(item) ? count + 1 : count),
         0
       ),
     [items]

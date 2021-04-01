@@ -9,7 +9,7 @@ import { useUserContext } from '../shared/UserContext';
 import {
   itemHasReusedPassword,
   itemHasWeakPassword,
-  itemIsMonthOld,
+  itemIs30DaysOld,
 } from '~/utils';
 import { useUserItemsContext } from '../shared/UserItemsContext';
 
@@ -46,7 +46,7 @@ const PasswordHealth = () => {
           />
         </Route>
         <Route path={Routes.Old}>
-          <List items={items.filter(itemIsMonthOld)} />
+          <List items={items.filter(itemIs30DaysOld)} />
         </Route>
       </Switch>
     </div>

@@ -1,81 +1,64 @@
-import {FC, useState} from 'react';
-import {IItem} from "~/services/getUserItems";
-import ItemIcon from './components/ItemIcon';
-import updateItem from '../../../../services/updateItem';
-import Modal from 'react-modal';
+import { FC, useState } from 'react';
+import { useUserItemsContext } from '~/components/shared/UserItemsContext';
+import { updateUserItem } from '~/services/userItems.services';
+import { IUserItem } from '~/types';
+import ListItem from './components/ListItem';
+import PasswordUpdateModal from './components/PasswordUpdateModal';
 
-import './list-style.scss';
+import './List.scss';
 
-interface IList {
-  items: Array<IItem>,
+interface IListProps {
+  items: IUserItem[];
 }
 
-interface IUpdateModal {
-  item: IItem;
-}
-
-const UpdateModal: FC<IUpdateModal> = ({ item }) => {
+const List: FC<IListProps> = ({ items }) => {
   const [showModal, setShowModal] = useState(false);
-  const [newPass, setNewPass] = useState('');
+  const [selectedItem, setSelectedItem] = useState<IUserItem | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string>('');
+  const { updateUserItems } = useUserItemsContext();
+
+  const handleListItemClick = async (item: IUserItem) => {
+    setSelectedItem(item);
+    setShowModal(true);
+  };
+
+  const handleUserItemUpdate = async (newPass: string) => {
+    setErrorMessage('');
+
+    if (selectedItem !== null) {
+      try {
+        await updateUserItem({
+          ...selectedItem,
+          password: newPass,
+        });
+        setShowModal(false);
+        setSelectedItem(null);
+        updateUserItems();
+      } catch (error) {
+        setErrorMessage(error.message);
+      }
+    }
+  };
 
   return (
     <>
-      <button className="update" onClick={() => setShowModal(true)}>
-        Update Password
-      </button>
-      <Modal
-        className="modal"
-        isOpen={showModal}
-        onRequestClose={() => setShowModal(false)}
-        contentLabel="Example Modal"
-      >
-        <h1>Update Password</h1>
-        <input
-          placeholder="new password"
-          className="input"
-          value={newPass}
-          onChange={(event) => setNewPass(event.target.value)} 
-        />
-        <div className="pt-12px text-center">
-          <button className="button" onClick={async () => {
-            await updateItem({
-              ...item,
-              password: newPass,
-            })
-
-            window.location.reload();
-          }}>Change</button>
-          <button className="button ml-12px" onClick={() => {
-            setNewPass('');
-            setShowModal(false)
-          }}>
-            Cancel
-          </button>
-        </div>
-      </Modal>
+      <ul className="list">
+        {items.map((item) => (
+          <ListItem
+            key={item.title}
+            item={item}
+            handleListItemClick={handleListItemClick}
+          />
+        ))}
+      </ul>
+      <PasswordUpdateModal
+        showModal={showModal}
+        errorMessage={errorMessage}
+        setShowModal={setShowModal}
+        handleUserItemUpdate={handleUserItemUpdate}
+      />
     </>
   );
-}
-
-const List: FC<IList> = ({items}) => (
-  <ul className="list">
-    {
-      items.map((item) => (
-        <li className="item">
-          <ItemIcon title={item.title}/>
-          <div>
-            <div className="title">
-              {item.title}
-            </div>
-            <div className="description">
-              {item.description}
-            </div>
-          </div>
-          <UpdateModal item={item} />
-        </li>
-      ))
-    }
-  </ul>
-)
+};
 
 export default List;

@@ -1,0 +1,22 @@
+.login {
+  &__page {
+    background: url('/public/assets/mountain.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+
+  &__form {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    background-color: white;
+    padding: 3.125rem;
+    width: 21.875rem;
+    height: 25rem;
+  }
+}

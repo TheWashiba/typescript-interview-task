@@ -1,14 +1,18 @@
 import List from './components/List/List';
-import useItemsProvider from './useItemsProvider';
-import ErrorBlock from '../ErrorBlock';
+import ErrorBlock from '../shared/ErrorBlock';
 import Filter from './components/Filter/Filter';
-import LoadingScreen from '../LoadingScreen';
-import Header from './components/Header/Header';
-import {Route, Switch} from "react-router-dom";
-import {Routes} from '~/constants';
-import itemHasWeakPassword from "~/utils/itemHasWeakPassword";
-import itemHasReusedPassword from "~/utils/itemHasReusedPassword";
-import { useUserContext } from '../UserContext';
+import LoadingScreen from '../shared/LoadingScreen';
+import Header from './components/Header';
+import { Route, Switch } from 'react-router-dom';
+import { Routes } from '~/constants';
+import { useUserContext } from '../shared/UserContext';
+import {
+  itemHasReusedPassword,
+  itemHasWeakPassword,
+  itemIs30DaysOld,
+} from '~/utils';
+import { useUserItemsContext } from '../shared/UserItemsContext';
+import { useMemo } from 'react';
 
 const PasswordHealth = () => {
   const {
@@ -16,34 +20,38 @@ const PasswordHealth = () => {
     isLoading: userDataIsLoading,
     username,
   } = useUserContext();
-
-  const {
-    items,
-    isLoading,
-    errorMessage,
-  } = useItemsProvider();
+  const { items, isLoading, errorMessage } = useUserItemsContext();
+  const weakItem = useMemo(() => items.filter(itemHasWeakPassword), [items]);
+  const reusedItems = useMemo(
+    () => items.filter((item) => itemHasReusedPassword(item, items)),
+    [items]
+  );
+  const oldItems = useMemo(() => items.filter(itemIs30DaysOld), [items]);
 
   if (isLoading || userDataIsLoading) {
-    return <LoadingScreen/>
+    return <LoadingScreen />;
   }
 
   if (userProviderErrorMessage || errorMessage) {
-    return <ErrorBlock error={userProviderErrorMessage || errorMessage}/>
+    return <ErrorBlock error={userProviderErrorMessage || errorMessage} />;
   }
 
   return (
     <div className="container">
       <Header items={items} username={username} />
-      <Filter items={items}/>
+      <Filter items={items} />
       <Switch>
         <Route exact path={Routes.PasswordHealth}>
-          <List items={items}/>
+          <List items={items} />
         </Route>
         <Route path={Routes.Weak}>
-          <List items={items.filter(itemHasWeakPassword)}/>
+          <List items={weakItem} />
         </Route>
         <Route path={Routes.Reused}>
-          <List items={items.filter((item) => itemHasReusedPassword(item, items))}/>
+          <List items={reusedItems} />
+        </Route>
+        <Route path={Routes.Old}>
+          <List items={oldItems} />
         </Route>
       </Switch>
     </div>

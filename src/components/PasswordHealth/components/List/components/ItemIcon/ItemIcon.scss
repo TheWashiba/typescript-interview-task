@@ -1,0 +1,14 @@
+@import 'variables';
+
+.item-icon {
+  color: $white;
+  font-weight: bold;
+  border-radius: 0.5625rem;
+  height: 2.375rem;
+  width: 2.375rem;
+  background-color: $grey;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 0.75rem;
+}

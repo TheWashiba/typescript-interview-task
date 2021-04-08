@@ -1,0 +1,29 @@
+@import 'variables';
+
+.header {
+  height: 10rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: $red;
+  color: $white;
+
+  &__user-section {
+    top: 1rem;
+    right: 2rem;
+    position: absolute;
+  }
+
+  &__button {
+    font-size: larger;
+    font-weight: 700;
+    background-color: $grey-light;
+    padding: 0.75rem 1.125rem;
+    cursor: pointer;
+    user-select: none;
+    margin-left: 0.75rem;
+    border-radius: 0.5625rem;
+    border-width: 0;
+  }
+}

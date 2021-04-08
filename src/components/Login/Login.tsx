@@ -1,56 +1,79 @@
-import {SyntheticEvent, useState} from 'react';
-import {useHistory} from 'react-router-dom';
-import {Routes} from '~/constants';
-import login from '~/services/login';
-import ErrorBlock from '../ErrorBlock';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { useHistory } from 'react-router-dom';
+import * as yup from 'yup';
+import { Routes } from '~/constants';
+import { login } from '~/services/auth.services';
+import ErrorBlock from '../shared/ErrorBlock';
+import LoadingScreen from '../shared/LoadingScreen';
 
-import './login-style.scss';
+import './Login.scss';
+
+interface ILoginForm {
+  username: string;
+  password: string;
+}
+
+const loginSchema = yup.object().shape({
+  username: yup.string().required(),
+  password: yup.string().required(),
+});
 
 const Login = () => {
-  const {push} = useHistory();
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [errorMessage, setErrorMessage] = useState<string>();
+  const { push } = useHistory();
+  const [errorMessage, setErrorMessage] = useState<string>('');
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { register, handleSubmit, errors } = useForm<ILoginForm>({
+    resolver: yupResolver(loginSchema),
+  });
 
-  const handleSubmit = async (event: SyntheticEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setErrorMessage(null);
+  const onSubmit = async (data: ILoginForm) => {
+    setErrorMessage('');
+    setIsLoading(true);
 
     try {
-      await login(username, password);
+      await login(data.username, data.password);
       push(Routes.PasswordHealth);
     } catch (error) {
+      setIsLoading(false);
       setErrorMessage(error.message);
     }
   };
 
   return (
-    <div className="login-page">
-      <form className="login-form" onSubmit={handleSubmit}>
-        <h1 className="text-center">
-          Password Health
-        </h1>
-        <input
-          value={username}
-          onChange={(event) => setUsername(event.target.value)}
-          placeholder="Username"
-          type="text"
-          className="input mt-52px"
-        />
-        <input
-          value={password}
-          onChange={(event) => setPassword(event.target.value)}
-          placeholder="Password"
-          type="password"
-          className="input mt-24px"
-        />
-        <ErrorBlock error={errorMessage}/>
-        <button type="submit" className="button mt-24px">
-          Login
-        </button>
+    <div className="login__page">
+      <form className="login__form" onSubmit={handleSubmit(onSubmit)}>
+        <h1 className="text-center">Password Health</h1>
+        {isLoading ? (
+          <LoadingScreen />
+        ) : (
+          <>
+            <input
+              placeholder="Username"
+              type="text"
+              className="input mt-52px"
+              ref={register}
+              name="username"
+            />
+            {errors.username?.message && <p>{errors.username?.message}</p>}
+            <input
+              placeholder="Password"
+              type="password"
+              className="input mt-24px"
+              ref={register}
+              name="password"
+            />
+            {errors.password?.message && <p>{errors.password?.message}</p>}
+            <ErrorBlock error={errorMessage} />
+            <button type="submit" className="button mt-24px">
+              Login
+            </button>
+          </>
+        )}
       </form>
     </div>
-  )
+  );
 };
 
 export default Login;

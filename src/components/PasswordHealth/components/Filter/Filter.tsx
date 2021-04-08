@@ -1,29 +1,53 @@
-import { FC } from 'react';
-import { Routes } from "~/constants";
-import { IItem } from "~/services/getUserItems";
-import FilterTab from "./components/FilterTab"
+import { FC, useMemo } from 'react';
+import { Routes } from '~/constants';
+import { IUserItem } from '~/types';
+import {
+  itemHasReusedPassword,
+  itemHasWeakPassword,
+  itemIs30DaysOld,
+} from '~/utils';
+import FilterTab from './components/FilterTab';
 
-import './filter-style.scss';
-import itemHasWeakPassword from "~/utils/itemHasWeakPassword";
-import itemHasReusedPassword from "~/utils/itemHasReusedPassword";
+import './Filter.scss';
 
-interface IFilter {
-  items: Array<IItem>;
+interface IFilterProps {
+  items: IUserItem[];
 }
 
-const Filter: FC<IFilter> = ({items}) => {
-  const weakItemsCount = items.reduce((count, item) => (
-    itemHasWeakPassword(item) ? (count + 1) : count
-  ), 0)
+const Filter: FC<IFilterProps> = ({ items }) => {
+  const weakItemsCount = useMemo(
+    () =>
+      items.reduce(
+        (count, item) => (itemHasWeakPassword(item) ? count + 1 : count),
+        0
+      ),
+    [items]
+  );
 
-  const reusedItemsCount = items.reduce((count, item) => (
-    itemHasReusedPassword(item, items) ? (count + 1) : count
-  ), 0)
+  const reusedItemsCount = useMemo(
+    () =>
+      items.reduce(
+        (count, item) =>
+          itemHasReusedPassword(item, items) ? count + 1 : count,
+        0
+      ),
+    [items]
+  );
+
+  const oldItemsCount = useMemo(
+    () =>
+      items.reduce(
+        (count, item) => (itemIs30DaysOld(item) ? count + 1 : count),
+        0
+      ),
+    [items]
+  );
 
   return (
     <div className="filter">
-      <FilterTab title="Weak" count={weakItemsCount} path={Routes.Weak}/>
-      <FilterTab title="Reused" count={reusedItemsCount} path={Routes.Reused}/>
+      <FilterTab title="Weak" count={weakItemsCount} path={Routes.Weak} />
+      <FilterTab title="Reused" count={reusedItemsCount} path={Routes.Reused} />
+      <FilterTab title="Old" count={oldItemsCount} path={Routes.Old} />
     </div>
   );
 };
